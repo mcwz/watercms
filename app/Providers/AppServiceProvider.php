@@ -29,5 +29,9 @@ class AppServiceProvider extends ServiceProvider
         if (Schema::hasTable($table)) {
             Config::load();
         }
+
+        $this->app->singleton('groupService', function ($app) {
+            return new \App\Services\GroupService();
+        });
     }
 }

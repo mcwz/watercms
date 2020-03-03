@@ -128,7 +128,7 @@ class AdminTablesSeeder extends Seeder
             [
                 'parent_id' => 2,
                 'order'     => 6,
-                'title'     => '功能管理',
+                'title'     => '菜单管理',
                 'icon'      => 'fas fa-bars',
                 'uri'       => 'auth/menu',
             ],
