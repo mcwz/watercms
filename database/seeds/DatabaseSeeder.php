@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $userModel = config('admin.database.users_model');
         if ($userModel::count() == 0) {
             $this->call(AdminTablesSeeder::class);
+            $this->call(TestDataSeed::class);
         }
     }
 }

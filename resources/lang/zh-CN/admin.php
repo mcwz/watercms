@@ -103,4 +103,14 @@ return [
     'prev'                   => '上一步',
     'next'                   => '下一步',
     'quick_create'           => '快速创建',
+
+    'user group'=>'用户组',
+    'user group list'=>'用户组列表',
+    'Parent group'=>'上级用户组',
+    'Group name'=>'用户组名称',
+    'Order'=>'排序序号',
+    'Title'=>'标题',
+    'Created at'=>'创建时间',
+    'Updated at'=>'更新时间',
+    'Users'=>'用户'
 ];

@@ -121,41 +121,48 @@ class AdminTablesSeeder extends Seeder
             [
                 'parent_id' => 2,
                 'order'     => 5,
+                'title'     => '用户组管理',
+                'icon'      => 'fas fa-users',
+                'uri'       => 'groups',
+            ],
+            [
+                'parent_id' => 2,
+                'order'     => 6,
                 'title'     => '权限管理',
                 'icon'      => 'fas fa-ban',
                 'uri'       => 'auth/permissions',
             ],
             [
                 'parent_id' => 2,
-                'order'     => 6,
+                'order'     => 7,
                 'title'     => '菜单管理',
                 'icon'      => 'fas fa-bars',
                 'uri'       => 'auth/menu',
             ],
             [
                 'parent_id' => 2,
-                'order'     => 7,
+                'order'     => 8,
                 'title'     => '操作日志',
                 'icon'      => 'fas fa-history',
                 'uri'       => 'auth/logs',
             ],
             [
                 'parent_id' => 2,
-                'order'     => 8,
+                'order'     => 9,
                 'title'     => '系统日志',
                 'icon'      => 'fa fa-database',
                 'uri'       => 'logs',
             ],
             [
                 'parent_id' => 2,
-                'order'     => 9,
+                'order'     => 10,
                 'title'     => '系统变量',
                 'icon'      => 'fas fa-toggle-on',
                 'uri'       => 'config',
             ],
             [
                 'parent_id' => 2,
-                'order'     => 10,
+                'order'     => 11,
                 'title'     => '数据备份',
                 'icon'      => 'fas fa-copy',
                 'uri'       => 'backup',
@@ -164,5 +171,13 @@ class AdminTablesSeeder extends Seeder
 
         // add role to menu.
         Menu::find(2)->roles()->save(Role::first());
+
+        \App\Model\Group::insert([
+            [
+                'parent_id'=>0,
+                'order'=>0,
+                'title'=>'IT运维部门',
+            ]
+        ]);
     }
 }

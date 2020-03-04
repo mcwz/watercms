@@ -20,23 +20,25 @@ use Illuminate\Support\Facades\DB;
 class GroupController extends AdminController
 {
     protected $groupService;
+    protected $title;
     public function __construct()
     {
         $this->groupService=App::make('groupService');
+        $this->title=trans('admin.user group');
     }
     /**
      * Title for current resource.
      *
      * @var string
      */
-    protected $title = '用户组';
+
 
     public function index(Content $content)
     {
         return Admin::content(function (Content $content) {
 
             $content->header($this->title);
-            $content->description('用户组列表');
+            $content->description(trans('admin.user group list'));
 
             $content->row(function (Row $row) {
 
@@ -49,9 +51,9 @@ class GroupController extends AdminController
                     $maxOrder=$this->groupService->getChildMaxOrder(0);
 
 
-                    $select=$form->select('parent_id','父类名称')->options(Group::selectOptions());
-                    $form->text('title','用户组名称');
-                    $form->number('order','排序序号')->default($maxOrder);
+                    $select=$form->select('parent_id',__('admin.Parent group'))->options(Group::selectOptions());
+                    $form->text('title',__('admin.Group name'));
+                    $form->number('order',__('admin.Order'))->default($maxOrder);
                     $form->hidden('_token')->default(csrf_token());
 
                     $getMaxOrderUrl=admin_base_path('/groups/get_max_order/');
@@ -89,11 +91,11 @@ class GroupController extends AdminController
         $grid = new Grid(new Group());
 
         $grid->column('id', __('Id'));
-        $grid->column('parent_id', __('Parent id'));
-        $grid->column('order', __('Order'));
-        $grid->column('title', __('Title'));
-        $grid->column('created_at', __('Created at'));
-        $grid->column('updated_at', __('Updated at'));
+        $grid->column('parent_id', __('parent group'));
+        $grid->column('order', __('admin.Order'));
+        $grid->column('title', __('admin.Title'));
+        $grid->column('created_at', __('admin.Created at'));
+        $grid->column('updated_at', __('admin.Updated at'));
 
         return $grid;
     }
@@ -109,12 +111,22 @@ class GroupController extends AdminController
         $show = new Show(Group::findOrFail($id));
 
         $show->field('id', __('Id'));
-        $show->field('parent_id', __('Parent id'));
-        $show->field('order', __('Order'));
-        $show->field('title', __('Title'));
-        $show->field('created_at', __('Created at'));
-        $show->field('updated_at', __('Updated at'));
-
+        $show->field('parent', trans('admin.Parent group'))->as(function ($parent) {
+            if($parent)
+                return $parent->title;
+            else
+                return '';
+        })->label();
+        $show->field('order', __('admin.Order'));
+        $show->field('title', __('admin.Group name'));
+        $show->field('created_at', __('admin.Created at'));
+        $show->field('updated_at', __('admin.Updated at'));
+        $show->field('users', trans('admin.Users'))->as(function ($users) {
+            if($users)
+                return $users->pluck('name');
+            else
+                return '';
+        })->label();
         return $show;
     }
 
@@ -125,12 +137,14 @@ class GroupController extends AdminController
      */
     protected function form()
     {
-        return Admin::form(Group::class, function (Form $form) {
 
+        return Admin::form(Group::class, function (Form $form) {
+            $userModel = config('admin.database.users_model');
             $form->display('id', 'ID');
-            $form->text('title','用户组名称');
-            $form->select('parent_id','父类名称')->options(Group::selectOptions());
-            $form->number('order','排序序号');
+            $form->text('title',__('admin.Group name'));
+            $form->select('parent_id',__('admin.Parent group'))->options(Group::selectOptions());
+            $form->number('order',__('admin.Order'));
+            $form->multipleSelect('users', trans('admin.Users'))->options($userModel::all()->pluck('name', 'id'));
         });
     }
 
@@ -145,8 +159,6 @@ class GroupController extends AdminController
         // return Admin::content(function (Content $content) use ($id) {
 
             $content->header($this->title);
-            $content->description('编辑类型');
-
             $content->body($this->form()->edit($id));
             return $content;
         // });
@@ -156,6 +168,13 @@ class GroupController extends AdminController
     protected function treeView()
     {
         return Group::tree(function (Tree $tree) {
+            $tree->setView([
+                'tree'   => 'admin.tree',
+                'branch' => 'admin.tree.branch',
+            ]);
+            $tree->branch(function ($branch) {
+                return "{$branch['title']} ";
+            });
             $tree->disableCreate();
             return $tree;
         });
