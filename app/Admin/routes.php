@@ -14,8 +14,11 @@ Route::group([
     $router->get('/groups/get_max_order/', 'GroupController@getMaxOrder')->name('admin.groups.getMaxOrder');
     $router->resource('groups', GroupController::class);
     $router->get('/categories/get_max_order/', 'CategoryController@getMaxOrder')->name('admin.categories.getMaxOrder');
-    $router->get('/categories/{category}', 'CategoryController@category')->name('admin.categories.category');
-    //$router->resource('categories', CategoryController::class);
+//    $router->get('/categories/categories', 'CategoryController@index')->name('admin.categories.index');
+//    $router->get('/categories/{category}', 'CategoryController@category')->name('admin.categories.category');
+//    $router->get('/categories/{category}/edit', 'CategoryController@edit')->name('admin.categories.edit');
+//    $router->put('/categories/{category}', 'CategoryController@update')->name('admin.categories.update');
+    $router->resource('categories', CategoryController::class);
 });
 
 /**

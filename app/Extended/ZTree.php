@@ -20,6 +20,7 @@ class ZTree
     private $nodeTreeSet;
     private $script;
     private $simpleData;
+    private $selectId=0;
 
     public function __construct($model,$setting=[],$nodeTreeSet="var setting ={}",$simpleData=true)
     {
@@ -39,6 +40,11 @@ class ZTree
         $this->script=$script;
     }
 
+    public function setSelectId($id)
+    {
+        $this->selectId=$id;
+    }
+
     public function renderTree()
     {
         $uuid=uniqid();
@@ -46,6 +52,12 @@ class ZTree
         Admin::css('/assets/zTreeStyle/zTreeStyle.css');
         $nodeData=json_encode($this->treeNodeDataTransfer());
         $simpleDataSetting=($this->simpleData?'if(setting.data){setting.data.simpleData={enable:true}}else{setting.data={simpleData:{enable:true}}}':'');
+
+        $addSelectScript="";
+        if($this->selectId>0)
+        {
+            $addSelectScript="var node = zTreeObj.getNodeByParam(\"id\", \"$this->selectId\");zTreeObj.selectNode(node);";
+        }
         Admin::script(<<<SCRIPT
 
         $this->nodeTreeSet
@@ -54,7 +66,8 @@ class ZTree
 		var zNodes =$nodeData;
 
 		$(document).ready(function(){
-			$.fn.zTree.init($("#$uuid"), setting, zNodes);
+			var zTreeObj=$.fn.zTree.init($("#$uuid"), setting, zNodes);
+			$addSelectScript
 		});
 SCRIPT
 
