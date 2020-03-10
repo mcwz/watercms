@@ -63,5 +63,25 @@ class TestDataSeed extends Seeder
                 'group_id'=>1,
             ],
         ]);
+
+        for($flag=1;$flag<5;$flag++){
+            \App\Model\Category::insert([
+                [
+                    'name'=>"栏目".$flag,
+                    'type'=>2,
+                    'parent_id'=>0
+                ]
+            ]);
+        }
+        for($flag=5;$flag<300;$flag++){
+            \App\Model\Category::insert([
+                [
+                    'name'=>"栏目".$flag,
+                    'type'=>2,
+                    'parent_id'=>($flag%5)+1
+                ]
+            ]);
+        }
+
     }
 }

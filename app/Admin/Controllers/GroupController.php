@@ -15,7 +15,6 @@ use Encore\Admin\Layout\Column;
 use Encore\Admin\Tree;
 use App;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class GroupController extends AdminController
 {
@@ -169,8 +168,8 @@ class GroupController extends AdminController
     {
         return Group::tree(function (Tree $tree) {
             $tree->setView([
-                'tree'   => 'admin.tree',
-                'branch' => 'admin.tree.branch',
+                'tree'   => 'admin.group_tree',
+                'branch' => 'admin.tree.group_branch',
             ]);
             $tree->branch(function ($branch) {
                 return "{$branch['title']} ";

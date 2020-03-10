@@ -33,5 +33,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton('groupService', function ($app) {
             return new \App\Services\GroupService();
         });
+
+        $this->app->singleton('categoryService', function ($app) {
+            return new \App\Services\CategoryService();
+        });
+
     }
 }

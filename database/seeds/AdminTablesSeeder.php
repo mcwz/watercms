@@ -99,7 +99,7 @@ class AdminTablesSeeder extends Seeder
             ],
             [
                 'parent_id' => 0,
-                'order'     => 2,
+                'order'     => 10,
                 'title'     => '系统管理',
                 'icon'      => 'fas fa-tasks',
                 'uri'       => '',
@@ -166,7 +166,16 @@ class AdminTablesSeeder extends Seeder
                 'title'     => '数据备份',
                 'icon'      => 'fas fa-copy',
                 'uri'       => 'backup',
-            ]
+            ],
+            [
+                'parent_id' => 0,
+                'order'     => 2,
+                'title'     => '内容管理',
+                'icon'      => 'fas fa-archive',
+                'uri'       => 'categories',
+            ],
+
+
         ]);
 
         // add role to menu.
@@ -177,6 +186,14 @@ class AdminTablesSeeder extends Seeder
                 'parent_id'=>0,
                 'order'=>0,
                 'title'=>'IT运维部门',
+            ]
+        ]);
+
+        \App\Model\Category::insert([
+            [
+                'name'=>env('APP_NAME'),
+                'type'=>1,
+                'uri'=>env('APP_URL')
             ]
         ]);
     }
